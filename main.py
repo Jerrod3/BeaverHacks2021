@@ -1,69 +1,84 @@
+from functions import *
+
+
 class User:
-    """A class that initializes the game"""
+    """A class that initializes a user for the game"""
 
-    def __init__(self, cumulative_footprint):
-        self._cumulative_footprint = cumulative_footprint
+    def __init__(self):
+        self._residence_size = int(input("How many people live in your home? "))
+        self._num_vehicles = int(input("How many vehicles in your houehold? "))
+        self._cars_list = []
+        self._utilities_dict = {}
 
-    def get_current_footprint(self):
-        """method to show current carbon footprint"""
+    def get_car_info(self):
+        """
+        Creates a list of cars in the household where each car is a dictionary
+        :return: nothing
+        """
+        for i in range(self._num_vehicles):
+            # gather car info to be appended later
+            mpg = int(input(f"What is the mpg of car {i + 1}? "))
+            annual_miles = int(input(f"How many miles do you drive car {i + 1} per year? (Avg is 11,000) "))
+            maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
+            if maintenance_answer in positive_responses():
+                maintenance = True
+            else:
+                maintenance = False
 
-        return "Your current carbon footprint in lbs per year is:", self._cumulative_footprint
+            # create a dictionary for each car
+            car_dict = {
+                "mpg": maintenance_factor(mpg, maintenance),
+                "annual_miles": annual_miles,
+                "maintenance": maintenance,  # this entry in the dictionary can probably be deleted
+                "lbs_CO2": (annual_miles / mpg) * 19.6,
+            }
+
+            # append each car to the car list
+            self._cars_list.append(car_dict)
+
+    def get_utility_info(self):
+        """
+        Creates a single dictionary storing the user's utility usage
+        :return: nothing
+        """
+        # gather utility info to store in dictionary
+        natural_gas = int(input("How much do you spend on natural gas each month? $"))
+        electricity = int(input("How much do you spend on electricity each month? $"))
+        oil = int(input("How much do you spend on oil fuel each month? $"))
+        propane = int(input("How much do you spend on propane each month? $"))
+
+        self._utilities_dict = {
+            "natural gas": natural_gas,
+            "electricity": electricity,
+            "oil": oil,
+            "propane": propane,
+        }
+
+    def calculate_footprint(self):
+        """
+        calculates the user's carbon footprint
+        return: total footprint an integer
+        """
+        cumulative_footprint = self._residence_size * 692
+        for car in self._cars_list:
+            # Add some logic to handle maintenance. Currently maintenance doesn't come into play at all
+            cumulative_footprint += car.get("lbs_CO2")
+        cumulative_footprint += self._utilities_dict["natural gas"] / 10.68 * (119.58 * 12)
+        cumulative_footprint += self._utilities_dict["electricity"] / .1188 * (.92 * 12)
+        cumulative_footprint += self._utilities_dict["oil"] / 4.02 * (22.61 * 12)
+        cumulative_footprint += self._utilities_dict["propane"] / 2.47 * (12.43 * 12)
+
+        return int(cumulative_footprint)
 
 
 def main():
-    """The main function"""
-    player = User(0)
+    """the main function for creating the user"""
+    # create the user object
+    user = User()
+    user.get_car_info()
+    user.get_utility_info()
+    total_footprint = user.calculate_footprint()
+    print(f"Your current carbon footprint per year is {total_footprint} lbs.")
 
-    print("Welcome to footprint calculator!")
-
-    residence_size = int(input("How many people live in your home? "))
-    base_waste = residence_size * 692
-    player._cumulative_footprint = player._cumulative_footprint + base_waste
-    # Lucas - refactor to not call private data member. Maybe use a method within the class?
-
-    # Calculate pounds per year of C02 via car exhaust:
-
-    car_quant = int(input("How many vehicles in your household? "))
-    if car_quant >= 1:
-        car_lst = []
-        for cars in range(1, car_quant + 1):
-            mpg = float(input("What is the mpg of car " + str(cars) + "? "))
-            miles_per_year = float(input("How many miles do you drive car " + str(cars) + " per week? (avg is 219) "))
-            regular_maintenance = input("Do you perform regular maintenance on this vehicle? ")
-            if regular_maintenance in positive_response:
-                regular_maintenance == True
-            else:
-                regular_maintenance == False
-            # Could throw try and excepts in here for invalid inputs (or all of the inputs, really)
-            car_i = [mpg, miles_per_year, regular_maintenance]
-            car_lst.append(car_i)
-        for cars in car_lst:
-            lbs_carbon = (cars[1] * 52) / cars[0] * 19.64 * 1.01
-            if cars[2] == False:
-                lbs_carbon = lbs_carbon * 1.04
-            player._cumulative_footprint = player._cumulative_footprint + lbs_carbon
-            # Lucas - refactor to not call private data member. Maybe use a method within the class?
-
-    # Calculate CO2 cost per lb of household C02 usage
-
-    natural_gas = (int(input("How much natural gas, in $, does your house use per month? "))) / 10.68 * (119.58 * 12)
-    player._cumulative_footprint = player._cumulative_footprint + natural_gas
-
-    electric = (int(input("How much, in $ per month, is your electrical bill? "))) / .1188 * (.92 * 12)
-    player._cumulative_footprint = player._cumulative_footprint + electric
-    # Need to incorporate green power usage here - formula is not specific on how that apllies,
-    # Unless it is applied in the reduction section further on down
-
-    fuel_oil = (int(input("How much, in $ per month, is your fuel oil bill? "))) / 4.02 * (22.61 * 12)
-    player._cumulative_footprint = player._cumulative_footprint + fuel_oil
-
-    propane = (int(input("How much, in $ per month, is your propane? "))) / 2.47 * (12.43 * 12)
-    player._cumulative_footprint = player._cumulative_footprint + propane
-
-    print("The base amount of your carbon waste is", player.get_current_footprint())
-
-
-positive_response = ['yes', 'y', 'Yes', 'Y']
-negative_responses = ['n', 'N', 'no', 'No']
 
 main()
