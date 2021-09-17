@@ -28,7 +28,7 @@ def main():
         car_lst = []
         for cars in range(1, car_quant + 1):
             mpg = float(input("What is the mpg of car " + str(cars) + "? "))
-            miles_per_year = float(input("How many miles do you drive car " + str(cars) + " per week? "))
+            miles_per_year = float(input("How many miles do you drive car " + str(cars) + " per week? (avg is 219) "))
             regular_maintenance = input("Do you perform regular maintenance on this vehicle? ")
             if regular_maintenance in positive_response:
                 regular_maintenance == True
