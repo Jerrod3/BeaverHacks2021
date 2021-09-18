@@ -5,14 +5,14 @@
 The final graph will look something like this:</p>
 <img src="imgs/GraphVision.png">
 
-<p><u>Requirements</u></p>
+<p><u><strong>Requirements</strong></u></p>
 <li>Python3</li>
 <li>Plotly (in a future version, hopefully)</li>
 
-<p><u>Usage</u></p>
+<p><u><strong>Usage</strong></u></p>
 <li>Simply run main.py as you normally would and follow the prompts</li>
 
-<p><u>To be added</u></p>
+<p><u><strong>To be added</strong></u></p>
 <li>Currently only one instance of the the user exists. We will add other instances for modified trajectories</li>
 <li>Implement Plotly</li>
 <li>Add a line on the graph for the average American</li>
