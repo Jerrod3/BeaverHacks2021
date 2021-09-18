@@ -5,11 +5,30 @@ class User:
     """A class that initializes a user for the game"""
 
     def __init__(self):
-        self._residence_size = int(input("How many people live in your home? "))
-        self._num_vehicles = int(input("How many vehicles in your houehold? "))
+        while True:
+            try:
+                self._residence_size = int(input("How many people live in your home? "))
+            except:
+                print("Please enter a valid amount of residents")
+                continue
+            try:
+                self._num_vehicles = int(input("How many vehicles in your household? "))
+            except:
+                print("Please enter a valid quantity of vehicles")
+                continue
+            try:
+                self._current_age = int(input("How old are you currently? Minimum age is 18"))
+                if self._current_age < 18:
+                    print("Please enter a viable age")
+                    continue
+            except:
+                print("Please enter a viable age")
+                continue
+            break
         self._cars_list = []
         self._utilities_dict = {}
         self._recycling_choices = []
+        self._lifetime_CO2 = None
         self._footprint = 0
 
     def get_car_info(self):
@@ -19,42 +38,54 @@ class User:
         """
         for i in range(self._num_vehicles):
             # gather car info to be appended later
-            mpg = int(input(f"What is the mpg of car {i + 1}? "))
-            annual_miles = int(input(f"How many miles do you drive car {i + 1} each year? (Avg is 11,000) "))
-            maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
-            if maintenance_answer in positive_responses():
-                maintenance = True
-            else:
-                maintenance = False
+            while True:
+                try:
+                    mpg = float(input(f"What is the mpg of car {i + 1}? "))
+                    annual_miles = float(input(f"How many miles do you drive car {i + 1} each year? (Avg is 11,000) "))
+                    maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
+                    if maintenance_answer in positive_responses():
+                        maintenance = True
+                    else:
+                        maintenance = False
 
-            # create a dictionary for each car
-            car_dict = {
-                "mpg": maintenance_factor(mpg, maintenance),
-                "annual_miles": annual_miles,
-                "maintenance": maintenance,  # this entry in the dictionary can probably be deleted
-                "lbs_CO2": (annual_miles / mpg) * 19.6,
-            }
+                    # create a dictionary for each car
+                    car_dict = {
+                        "mpg": maintenance_factor(mpg, maintenance),
+                        "annual_miles": annual_miles,
+                        "maintenance": maintenance,  # this entry in the dictionary can probably be deleted
+                        "lbs_CO2": (annual_miles / mpg) * 19.6,
+                    }
 
-            # append each car to the car list
-            self._cars_list.append(car_dict)
+                    # append each car to the car list
+                    self._cars_list.append(car_dict)
 
+                    break
+                except:
+                    print("Please enter both a correct amount of miles and mpg")
+                    continue
     def get_utility_info(self):
         """
         Creates a single dictionary storing the user's utility usage
         :return: nothing
         """
         # gather utility info to store in dictionary
-        natural_gas = int(input("How much do you spend on natural gas each month? $"))
-        electricity = int(input("How much do you spend on electricity each month? $"))
-        oil = int(input("How much do you spend on oil fuel each month? $"))
-        propane = int(input("How much do you spend on propane each month? $"))
+        while True:
+            try:
+                natural_gas = int(input("How much do you spend on natural gas each month? $"))
+                electricity = int(input("How much do you spend on electricity each month? $"))
+                oil = int(input("How much do you spend on oil fuel each month? $"))
+                propane = int(input("How much do you spend on propane each month? $"))
 
-        self._utilities_dict = {
-            "natural gas": natural_gas,
-            "electricity": electricity,
-            "oil": oil,
-            "propane": propane,
-        }
+                self._utilities_dict = {
+                    "natural gas": natural_gas,
+                    "electricity": electricity,
+                    "oil": oil,
+                    "propane": propane,
+                }
+            except:
+                print("Please enter a valid $ amount")
+                continue
+            break
 
     def get_recycling_info(self):
         """Calculates recycling reductions"""
@@ -63,19 +94,16 @@ class User:
         # go through list and ask if the user recycles said item, and append to value list accordingly
         for item in recyclable_items:
             response = input(f"Do you recycle {item}? ")
-            if item not in positive_responses():
+            if item == 'metal cans' and response in positive_responses():
                 self._recycling_choices.append(89 * self._residence_size)
-            else:
-                if item == 'metal cans':
-                    self._recycling_choices.append(89 * self._residence_size)
-                elif item == 'plastic':
-                    self._recycling_choices.append(36 * self._residence_size)
-                elif item == 'glass':
-                    self._recycling_choices.append(25 * self._residence_size)
-                elif item == 'paper':
-                    self._recycling_choices.append(113 * self._residence_size)
-                elif item == 'magazines':
-                    self._recycling_choices.append(27 * self._residence_size)
+            elif item == 'plastic' and response in positive_responses():
+                self._recycling_choices.append(36 * self._residence_size)
+            elif item == 'glass' and response in positive_responses():
+                self._recycling_choices.append(25 * self._residence_size)
+            elif item == 'paper' and response in positive_responses():
+                self._recycling_choices.append(113 * self._residence_size)
+            elif item == 'magazines' and response in positive_responses():
+                self._recycling_choices.append(27 * self._residence_size)
 
     def calculate_footprint(self):
         """
@@ -95,15 +123,24 @@ class User:
         cumulative_footprint += self._utilities_dict["propane"] / 2.47 * (12.43 * 12)
 
         self._footprint = cumulative_footprint
+
         return int(cumulative_footprint)
 
-    def proactive_choices(self):
+    def current_lifetime_footprint(self):
 
-        """Actions the user can take to reduce their footprint after being shown
-        what the footprints total amount is. Each input reduces the original footprint"""
+        """Creates a simple list of accumulated C02 use over the current lifespan of the user. The base for the
+        rest of the lines in the graph up to a given point, the usersa age"""
 
-        # if we go with the graph idea, this method won't be needed
+        # Adding in the basic list for the 45 degree "life so far" line
+        life_lst = []
+        cumulative_CO2 = 0
+        for year in range(18, self._current_age + 1):
+            cumulative_CO2 += self._footprint
+            life_lst.append(cumulative_CO2)
 
+        self._lifetime_CO2 = life_lst
+
+        return sum(life_lst)
 
 def main():
     """the main function for creating the user"""
@@ -112,11 +149,10 @@ def main():
     user.get_car_info()
     user.get_utility_info()
     user.get_recycling_info()
-    total_footprint = user.calculate_footprint()
-    print(f"Your current carbon footprint per year is {total_footprint} lbs.")
-    #Possibly add in a statement that tells that the above print statement is the max footprint
-    #without carbon abatement practices?
-    print("Here are some actions you can take to reduce your footprint")
+    print(f"Your households current carbon footprint per year is {user.calculate_footprint()} lbs.")
+    print(f"Your overall lifetime household carbon footprint is {user.current_lifetime_footprint()} lbs.")
+
+
 
 
 
