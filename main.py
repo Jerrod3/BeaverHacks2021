@@ -57,50 +57,35 @@ class User:
         }
 
     def get_recycling_info(self):
-
         """Calculates recycling reductions"""
-
-        metal = input("Do you recycle metal cans?")
-
-        if metal in positive_responses():
-            metal = 89 * self._residence_size
-        else:
-            metal = 1 * self._residence_size
-        plastic = input("Do you recycle plastic?")
-
-        if plastic in positive_responses():
-            plastic = 36 * self._residence_size
-        else:
-            plastic = 1 * self._residence_size
-        glass = input("Do you recycle glass?")
-
-        if glass in positive_responses():
-            glass = 25 * self._residence_size
-        else:
-            glass = 1 * self._residence_size
-        paper = input("Do you recycle paper?")
-
-        if paper in positive_responses():
-            paper = 113 * self._residence_size
-        else:
-            paper = 1 * self._residence_size
-        magazines = input("Do you recycle magazines?")
-
-        if magazines in positive_responses():
-            magazines = 27 * self._residence_size
-        else:
-            magazines = 1 * self._residence_size
-
-        self._recycling_choices = [metal,plastic,glass,paper,magazines]
+        # the list of potentially recycled items
+        recyclable_items = ['metal cans', 'plastic', 'glass', 'paper', 'magazines']
+        # go through list and ask if the user recycles said item, and append to value list accordingly
+        for item in recyclable_items:
+            response = input(f"Do you recycle {item}? ")
+            if item not in positive_responses():
+                self._recycling_choices.append(89 * self._residence_size)
+            else:
+                if item == 'metal cans':
+                    self._recycling_choices.append(89 * self._residence_size)
+                elif item == 'plastic':
+                    self._recycling_choices.append(36 * self._residence_size)
+                elif item == 'glass':
+                    self._recycling_choices.append(25 * self._residence_size)
+                elif item == 'paper':
+                    self._recycling_choices.append(113 * self._residence_size)
+                elif item == 'magazines':
+                    self._recycling_choices.append(27 * self._residence_size)
 
     def calculate_footprint(self):
         """
         calculates the user's carbon footprint
         return: total footprint an integer
         """
+        # base value from residence size, subtract recycling values
         cumulative_footprint = self._residence_size * 692 - (sum(self._recycling_choices))
         for car in self._cars_list:
-            if car["maintenance"] == True:
+            if car["maintenance"]:
                 cumulative_footprint += car.get("lbs_CO2") * .96
             else:
                 cumulative_footprint += car.get("lbs_CO2") * 1.04
@@ -117,7 +102,7 @@ class User:
         """Actions the user can take to reduce their footprint after being shown
         what the footprints total amount is. Each input reduces the original footprint"""
 
-
+        # if we go with the graph idea, this method won't be needed
 
 
 def main():
