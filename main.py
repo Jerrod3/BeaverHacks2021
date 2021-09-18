@@ -20,7 +20,7 @@ class User:
         for i in range(self._num_vehicles):
             # gather car info to be appended later
             mpg = int(input(f"What is the mpg of car {i + 1}? "))
-            annual_miles = int(input(f"How many miles do you drive car {i + 1} per year? (Avg is 11,000) "))
+            annual_miles = int(input(f"How many miles do you drive car {i + 1} each year? (Avg is 11,000) "))
             maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
             if maintenance_answer in positive_responses():
                 maintenance = True
