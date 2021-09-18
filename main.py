@@ -30,7 +30,7 @@ class User:
             if car["maintenance"]:
                 footprint += car.get("lbs_CO2") * 0.96
             else:
-                footprint -= car.get("lbs_CO2") * 0.96
+                footprint += car.get("lbs_CO2") * 1.04
         footprint += self._utilities_dict["natural gas"] / 10.68 * (119.58 * 12)
         footprint += self._utilities_dict["electricity"] / .1188 * (.92 * 12)
         footprint += self._utilities_dict["oil"] / 4.02 * (22.61 * 12)
@@ -99,7 +99,7 @@ def get_recycling_info(residence_size):
     for item in recyclable_items:
         response = input(f"Do you recycle {item}? ")
         if response not in positive_responses():
-            recycling_choices.append(89 * residence_size)
+            continue
         else:
             if item == 'metal cans':
                 recycling_choices.append(89 * residence_size)
@@ -211,8 +211,8 @@ def main():
     goody_two_shoes = good_user()
     good_list = get_modified_list(player.footprint, goody_two_shoes.footprint, player.age)
 
-    # print(player_list)
-    # print(good_list)
+    print(player_list)
+    print(good_list)
 
     graph(player_list, good_list)
 
