@@ -7,15 +7,16 @@ The final graph will look something like this:</p>
 
 <p><u><strong>Requirements</strong></u></p>
 <li>Python3</li>
-<li>Plotly (in a future version, hopefully)</li>
+<li>Plotly</li>
 
 <p><u><strong>Usage</strong></u></p>
 <li>Simply run main.py as you normally would and follow the prompts</li>
 
 <p><u><strong>To be added</strong></u></p>
-<li>Currently only one instance of the the user exists. We will add other instances for modified trajectories</li>
-<li>Implement Plotly</li>
-<li>Add a line on the graph for the average American</li>
 <li>Add sources to this README (Generally the EPA)</li>
 <li>Add screenshots of plotly graphs and general usage</li>
 <li>Make presentation video</li>
+<li>Convert C02 to tons for more clear graphs</li>
+<li>Add exception handling</li>
+<li>Add labels for lines</li>
+<li>Add constants that show how much the earth warms if all people expended this much C02, if the graph doesn't become to cluttered</li>
