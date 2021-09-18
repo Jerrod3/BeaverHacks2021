@@ -129,7 +129,7 @@ def get_modified_list(yearly_footprint, modified_footprint, age):
     modified_list = [yearly_footprint]
 
     for i in range(1, 73):
-        if i <= age:
+        if i <= age - 18:
             modified_list.append(modified_list[i-1] + yearly_footprint)
         else:
             modified_list.append(modified_list[i-1] + modified_footprint)
