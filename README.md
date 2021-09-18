@@ -4,12 +4,18 @@
 <p>Our goal is to show a graph with the user's cumulative lifetime footprint over time, along with different trajectories based upon life choices they could make.
 The final graph will look something like this:</p>
 <img src="imgs/GraphVision.png">
+
 <p><u>Requirements</u></p>
-<ls>
-    <li>Python3</li>
-    <li>plotly</li>
-</ls>
+<li>Python3</li>
+<li>Plotly (in a future version, hopefully)</li>
+
 <p><u>Usage</u></p>
-<ls>
-    <li>Simply run main.py and follow the prompts</li>
-</ls>
+<li>Simply run main.py as you normally would and follow the prompts</li>
+
+<p><u>To be added</u></p>
+<li>Currently only one instance of the the user exists. We will add other instances for modified trajectories</li>
+<li>Implement Plotly</li>
+<li>Add a line on the graph for the average American</li>
+<li>Add sources to this README (Generally the EPA)</li>
+<li>Add screenshots of plotly graphs and general usage</li>
+<li>Make presentation video</li>
