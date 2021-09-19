@@ -2,8 +2,6 @@
 All the functions needed for main.py
 """
 
-import matplotlib.pyplot as plt
-
 def get_car_info(num_vehicles):
     """
     Creates a list of cars in the household where each car is a dictionary

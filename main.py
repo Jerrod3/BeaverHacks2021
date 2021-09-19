@@ -1,4 +1,5 @@
 from functions import *
+import matplotlib.pyplot as plt
 
 # NOTES / THINGS TO IMPLEMENT
 """
