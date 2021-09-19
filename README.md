@@ -18,7 +18,7 @@ Sample Usage:
 <p><u><strong>Requirements</strong></u></p>
 <li>Python3</li>
 <li>Plotly</li>
-<li>Labellines</li>
+<li><a href="https://pypi.org/project/matplotlib-label-lines/">Labellines</a></li>
 
 <p><u><strong>Usage</strong></u></p>
 <li>On your own computer: simply run main.py as you normally would any python script and follow the prompts</li>

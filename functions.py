@@ -121,25 +121,31 @@ def get_modified_list(yearly_footprint, modified_footprint, age):
     return modified_list
 
 
-def three_bad_cars():
+def two_bad_cars():
     """returns a list of five bad car dicts"""
     return [
         {
             "mpg": maintenance_factor(21.6, False),
             "annual_miles": 4000,
             "maintenance": False,  # this entry in the dictionary can probably be deleted
-            "lbs_CO2": (11000 / 19.6) * 19.6,
+            "lbs_CO2": (11000 / 21.6) * 19.6,
         },
         {
             "mpg": maintenance_factor(21.6, False),
             "annual_miles": 4000,
             "maintenance": False,  # this entry in the dictionary can probably be deleted
-            "lbs_CO2": (11000 / 19.6) * 19.6,
+            "lbs_CO2": (11000 / 21.6) * 19.6,
         },
+    ]
+
+
+def one_good_car():
+    """returns a list of a single good car dict"""
+    return [
         {
-            "mpg": maintenance_factor(21.6, False),
-            "annual_miles": 4000,
-            "maintenance": False,  # this entry in the dictionary can probably be deleted
-            "lbs_CO2": (11000 / 19.6) * 19.6,
-        },
+            "mpg": maintenance_factor(50, False),
+            "annual_miles": 5000,
+            "maintenance": True,  # this entry in the dictionary can probably be deleted
+            "lbs_CO2": (11000 / 50) * 19.6,
+        }
     ]

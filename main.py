@@ -93,23 +93,24 @@ def good_user():
 def bad_user():
     """
     a default user object who makes non-green choices
-    This user does not recycle, drives three average cars an average of 12,000 miles
+    This user does not recycle, drives two average cars an average of 12,000 miles
     """
     age = 18  # this is arbitrary and won't come into play
     residence_size = 1
     num_vehicles = 3
-    car_list = three_bad_cars()
+    car_list = two_bad_cars()
     utilities_dict = {
-            "natural gas": 200,
+            "natural gas": 100,
             "electricity": 200,
-            "oil": 200,
-            "propane": 200,
+            "oil": 100,
+            "propane": 100,
         }
-    recycling_choices = [0, 0, 0, 0, 0, 0]  # does not recycle. Should these be zeroes?
+    recycling_choices = [0, 0, 0, 0, 0, 0]  # does not recycle
 
     nuke_the_planet = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
 
     return nuke_the_planet
+
 
 def green_two_extra_kids(player_res_size):
     """
@@ -137,6 +138,7 @@ def green_two_extra_kids(player_res_size):
 
     return green_fam
 
+
 def wasteful_two_extra_kids(player_res_size):
     """
     Having two additional children (residents of your home) and being very wasteful
@@ -146,7 +148,7 @@ def wasteful_two_extra_kids(player_res_size):
     residence_size = player_res_size + 2
     print(residence_size)
     num_vehicles = 3
-    car_list = three_bad_cars()
+    car_list = two_bad_cars()
     utilities_dict = {
         "natural gas": 200,
         "electricity": 200,
@@ -158,6 +160,7 @@ def wasteful_two_extra_kids(player_res_size):
     waste_fam = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
 
     return waste_fam
+
 
 def create_user():
     """
