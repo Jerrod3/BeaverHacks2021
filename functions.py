@@ -100,9 +100,9 @@ def average_american():
     """
     :return: a list of the cumulative carbon footprint of the average american, in lbs
     """
-    average_list = [16*2000]
+    average_list = [16]
     for i in range(72):
-        average_list.append(average_list[i] + 16*2000)
+        average_list.append(average_list[i] + 16)
 
     return average_list
 
@@ -122,7 +122,7 @@ def get_modified_list(yearly_footprint, modified_footprint, age):
 
 
 def two_bad_cars():
-    """returns a list of five bad car dicts"""
+    """returns a list of two bad car dicts"""
     return [
         {
             "mpg": maintenance_factor(21.6, False),

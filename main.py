@@ -5,11 +5,6 @@ from labellines import labelLine, labelLines
 # NOTES / THINGS TO IMPLEMENT
 """
 I lost the try/except stuff along the way, so input validation isn't present here :(
-If you look at the good default user material, it will hopefully be pretty straightforward how to implement
-a bad default user.  It should only require creating one new function for each default user, and formatting it like
-the default good user.
-We need to figure out how to label the lines on the graph. I'm sure Plotly has a tool for this.
-Move some functions to function.py, though this is just for readability and aesthetics.
 Update README
 Update this docstring to show a description, date, and us at the authors.
 """
@@ -33,7 +28,6 @@ class User:
     def calculate_footprint(self):
         """calculates the user's carbon footprint"""
         footprint = self._residence_size * 692 - sum(self._recycling_choices)
-        print(footprint)
         for car in self._cars_list:
             if car["maintenance"]:
                 footprint += car.get("lbs_CO2") * 0.96
@@ -44,7 +38,7 @@ class User:
         footprint += self._utilities_dict["oil"] / 4.02 * (22.61 * 12)
         footprint += self._utilities_dict["propane"] / 2.47 * (12.43 * 12)
 
-        return int(footprint)
+        return int(footprint/2000)
 
 
 def main():
@@ -132,7 +126,7 @@ def green_two_extra_kids(player_res_size):
         "oil": 0,
         "propane": 0,
     }
-    recycling_choices = [89 * residence_size, 36, 25, 113, 27]
+    recycling_choices = [(89 * residence_size), (36 * residence_size), (25 * residence_size), (113 * residence_size), (27 * residence_size)]
 
     green_fam = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
 
@@ -197,11 +191,11 @@ def graph(player_list, good_list, bad_list,green_fam_list,waste_fam_list):
 
     # Set chart title and label axes.
     ax.set_title("Lifetime CO2 Emissions", fontsize=24)
-    ax.set_xlabel("Age", fontsize=14)
-    ax.set_ylabel("CO2 Emissions in lbs", fontsize=14)
+    ax.set_xlabel("Age", fontsize=12)
+    ax.set_ylabel("CO2 Emissions in tons", fontsize=12)
 
     # Set size of tick labels
-    ax.tick_params(axis='both', labelsize=14)
+    ax.tick_params(axis='both', labelsize=8)
 
     plt.show()
 
