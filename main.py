@@ -26,9 +26,14 @@ class User:
         self._recycling_choices = recycling_choices
         self.footprint = self.calculate_footprint()
 
+    def get_residence_size(self):
+        """Getter function fo residence size"""
+        return self._residence_size
+
     def calculate_footprint(self):
         """calculates the user's carbon footprint"""
         footprint = self._residence_size * 692 - sum(self._recycling_choices)
+        print(footprint)
         for car in self._cars_list:
             if car["maintenance"]:
                 footprint += car.get("lbs_CO2") * 0.96
@@ -49,10 +54,13 @@ def main():
 
     goody_two_shoes = good_user()
     nuke_the_planet = bad_user()
+    green_fam = green_two_extra_kids(player.get_residence_size())
+    waste_fam = wasteful_two_extra_kids(player.get_residence_size())
     good_list = get_modified_list(player.footprint, goody_two_shoes.footprint, player.age)
     bad_list = get_modified_list(player.footprint, nuke_the_planet.footprint, player.age)
-
-    graph(player_list, good_list, bad_list)
+    green_fam_list = get_modified_list(player.footprint, green_fam.footprint, player.age)
+    waste_fam_list = get_modified_list(player.footprint, waste_fam.footprint, player.age)
+    graph(player_list, good_list, bad_list,green_fam_list,waste_fam_list)
 
 
 def get_player_list(yearly_footprint):
@@ -89,7 +97,7 @@ def bad_user():
     """
     age = 18  # this is arbitrary and won't come into play
     residence_size = 1
-    num_vehicles = 5
+    num_vehicles = 3
     car_list = three_bad_cars()
     utilities_dict = {
             "natural gas": 200,
@@ -103,6 +111,53 @@ def bad_user():
 
     return nuke_the_planet
 
+def green_two_extra_kids(player_res_size):
+    """
+    Having two additional children (residents of your home) and being very green
+    """
+
+    age = 18  # this is arbitrary and won't come into play
+    residence_size = player_res_size + 2
+    num_vehicles = 1
+    car_list = [{
+        "mpg": maintenance_factor(36, True),
+        "annual_miles": 8000,
+        "maintenance": True,  # this entry in the dictionary can probably be deleted
+        "lbs_CO2": (8000 / 36) * 19.6,
+    }]
+    utilities_dict = {
+        "natural gas": 40,
+        "electricity": 60,
+        "oil": 0,
+        "propane": 0,
+    }
+    recycling_choices = [89 * residence_size, 36, 25, 113, 27]
+
+    green_fam = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
+
+    return green_fam
+
+def wasteful_two_extra_kids(player_res_size):
+    """
+    Having two additional children (residents of your home) and being very wasteful
+    """
+
+    age = 18  # this is arbitrary and won't come into play
+    residence_size = player_res_size + 2
+    print(residence_size)
+    num_vehicles = 3
+    car_list = three_bad_cars()
+    utilities_dict = {
+        "natural gas": 200,
+        "electricity": 200,
+        "oil": 200,
+        "propane": 200,
+    }
+    recycling_choices = [0, 0, 0, 0, 0]
+
+    waste_fam = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
+
+    return waste_fam
 
 def create_user():
     """
@@ -121,19 +176,21 @@ def create_user():
     return player
 
 
-def graph(player_list, good_list, bad_list):
+def graph(player_list, good_list, bad_list,green_fam_list,waste_fam_list):
     """graphs all objects using Plotly"""
     input_values = list(range(18, 91))
     average_american_list = average_american()
 
     fig, ax = plt.subplots()
     # Create a line on the graph for each plot
-    ax.plot(input_values, player_list, linewidth=3, label="You")
-    ax.plot(input_values, average_american_list, linewidth=3, label="Avg American")
-    ax.plot(input_values, good_list, linewidth=3, label="100% green")
-    ax.plot(input_values, bad_list, linewidth=3, label="Bad Actor")
+    ax.plot(input_values, player_list, linewidth=1, label="You")
+    ax.plot(input_values, average_american_list, linewidth=1, label="Avg American")
+    ax.plot(input_values, good_list, linewidth=1, label="100% green")
+    ax.plot(input_values, bad_list, linewidth=1, label="Bad Actor")
+    ax.plot(input_values, green_fam_list, linewidth=1, label= "Green, two more kids")
+    ax.plot(input_values, waste_fam_list, linewidth=1, label="Wasteful, two more kids")
     # Use the label lines package to put labels on the lines
-    labelLines(plt.gca().get_lines())
+    labelLines(plt.gca().get_lines(), fontsize=7)
 
     # Set chart title and label axes.
     ax.set_title("Lifetime CO2 Emissions", fontsize=24)
