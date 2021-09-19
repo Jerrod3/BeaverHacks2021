@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from labellines import labelLine, labelLines
 
 # NOTES / THINGS TO IMPLEMENT
 """
@@ -160,7 +161,7 @@ def good_user():
             "oil": 0,
             "propane": 0,
         }
-    recycling_choices = [89, 89, 36, 25, 113, 27]
+    recycling_choices = [89, 36, 25, 113, 27]
 
     goody_two_shoes = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
 
@@ -190,7 +191,11 @@ def graph(player_list, good_list):
     average_american_list = average_american()
 
     fig, ax = plt.subplots()
-    ax.plot(input_values, player_list, input_values, average_american_list, input_values, good_list, linewidth=3)
+    ax.plot(input_values,player_list, linewidth = 3, label = "You")
+    ax.plot(input_values,average_american_list, linewidth = 3, label = "Avg American")
+    ax.plot(input_values,good_list, linewidth = 3, label = "100% green")
+
+    labelLines(plt.gca().get_lines())
 
     # Set chart title and label axes.
     ax.set_title("Lifetime CO2 Emissions", fontsize=24)
