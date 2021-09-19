@@ -8,12 +8,15 @@
 
 As of Saturday at 6:30pm, we have succeeded at graphing our user lifetime projected footprint and two possible alternative trajectories based on lifestyle changes, along with the average American's lifetime footprint.
 <h2>Progress!</h2>
+
 ![image info](./imgs/Figure_1.png)
 
 <h2>A Sample Final Graph</h2>
+
 ![image info](./imgs/FinalGraph.png)
 
 <h2>Sample Usage</h2>
+
 ![image info](./imgs/cmd.png)
 
 <p><u><strong>Notes About the Graph</strong></u></p>
