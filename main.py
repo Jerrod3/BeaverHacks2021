@@ -48,9 +48,11 @@ def main():
     player_list = get_player_list(player.footprint)
 
     goody_two_shoes = good_user()
+    nuke_the_planet = bad_user()
     good_list = get_modified_list(player.footprint, goody_two_shoes.footprint, player.age)
+    bad_list = get_modified_list(player.footprint, nuke_the_planet.footprint, player.age)
 
-    graph(player_list, good_list)
+    graph(player_list, good_list, bad_list)
 
 
 def get_player_list(yearly_footprint):
@@ -80,6 +82,28 @@ def good_user():
     return goody_two_shoes
 
 
+def bad_user():
+    """
+    a default user object who makes non-green choices
+    This user does not recycle, drives three average cars an average of 12,000 miles
+    """
+    age = 18  # this is arbitrary and won't come into play
+    residence_size = 1
+    num_vehicles = 5
+    car_list = three_bad_cars()
+    utilities_dict = {
+            "natural gas": 200,
+            "electricity": 200,
+            "oil": 200,
+            "propane": 200,
+        }
+    recycling_choices = [0, 0, 0, 0, 0, 0]  # does not recycle. Should these be zeroes?
+
+    nuke_the_planet = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
+
+    return nuke_the_planet
+
+
 def create_user():
     """
     creates a user with the User class
@@ -97,16 +121,17 @@ def create_user():
     return player
 
 
-def graph(player_list, good_list):
+def graph(player_list, good_list, bad_list):
     """graphs all objects using Plotly"""
     input_values = list(range(18, 91))
     average_american_list = average_american()
 
     fig, ax = plt.subplots()
     # Create a line on the graph for each plot
-    ax.plot(input_values,player_list, linewidth = 3, label = "You")
-    ax.plot(input_values,average_american_list, linewidth = 3, label = "Avg American")
-    ax.plot(input_values,good_list, linewidth = 3, label = "100% green")
+    ax.plot(input_values, player_list, linewidth=3, label="You")
+    ax.plot(input_values, average_american_list, linewidth=3, label="Avg American")
+    ax.plot(input_values, good_list, linewidth=3, label="100% green")
+    ax.plot(input_values, bad_list, linewidth=3, label="Bad Actor")
     # Use the label lines package to put labels on the lines
     labelLines(plt.gca().get_lines())
 

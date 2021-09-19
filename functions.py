@@ -2,6 +2,7 @@
 All the functions needed for main.py
 """
 
+
 def get_car_info(num_vehicles):
     """
     Creates a list of cars in the household where each car is a dictionary
@@ -118,3 +119,27 @@ def get_modified_list(yearly_footprint, modified_footprint, age):
             modified_list.append(modified_list[i-1] + modified_footprint)
 
     return modified_list
+
+
+def three_bad_cars():
+    """returns a list of five bad car dicts"""
+    return [
+        {
+            "mpg": maintenance_factor(21.6, False),
+            "annual_miles": 4000,
+            "maintenance": False,  # this entry in the dictionary can probably be deleted
+            "lbs_CO2": (11000 / 19.6) * 19.6,
+        },
+        {
+            "mpg": maintenance_factor(21.6, False),
+            "annual_miles": 4000,
+            "maintenance": False,  # this entry in the dictionary can probably be deleted
+            "lbs_CO2": (11000 / 19.6) * 19.6,
+        },
+        {
+            "mpg": maintenance_factor(21.6, False),
+            "annual_miles": 4000,
+            "maintenance": False,  # this entry in the dictionary can probably be deleted
+            "lbs_CO2": (11000 / 19.6) * 19.6,
+        },
+    ]
