@@ -12,8 +12,6 @@ reference.
 Authors: Lucas Jensen and Jerrod Lepper
 
 Last date updated: 9/19/21
-
-Update this docstring to show a description, date, and us at the authors.
 """
 
 
@@ -52,6 +50,8 @@ def main():
     """the main function for the program"""
     player = create_user()
     player_list = get_player_list(player.footprint)
+
+    print(f"Your yearly CO2 emissions average to {player.footprint} tons.  The average American emits 16 tons.")
 
     goody_two_shoes = good_user()
     nuke_the_planet = bad_user()
