@@ -4,8 +4,15 @@ from labellines import labelLine, labelLines
 
 # NOTES / THINGS TO IMPLEMENT
 """
-I lost the try/except stuff along the way, so input validation isn't present here :(
-Update README
+A program that constructs a graph, detailing the user's carbon footprint in tons over the lifespan of a typical 
+individual. At the users age, the graph splits off into different trend lines that detail what would happen to 
+the user's carbon footprint if they decided to change their habits. There are also other comparative lines for 
+reference.
+
+Authors: Lucas Jensen and Jerrod Lepper
+
+Last date updated: 9/19/21
+
 Update this docstring to show a description, date, and us at the authors.
 """
 
@@ -22,7 +29,7 @@ class User:
         self.footprint = self.calculate_footprint()
 
     def get_residence_size(self):
-        """Getter function fo residence size"""
+        """Getter function for residence size"""
         return self._residence_size
 
     def calculate_footprint(self):
@@ -140,7 +147,6 @@ def wasteful_two_extra_kids(player_res_size):
 
     age = 18  # this is arbitrary and won't come into play
     residence_size = player_res_size + 2
-    print(residence_size)
     num_vehicles = 3
     car_list = two_bad_cars()
     utilities_dict = {
@@ -161,27 +167,33 @@ def create_user():
     creates a user with the User class
     :return:
     """
-    age = int(input("How old are you? "))
-    residence_size = int(input("How many people live in your home? "))
-    num_vehicles = int(input("How many vehicles in your household? "))
-    car_list = get_car_info(num_vehicles)
-    utilities_dict = get_utility_info()
-    recycling_choices = get_recycling_info(residence_size)
+    while True:
+        try:
+            age = int(input("How old are you? "))
+            residence_size = int(input("How many people live in your home? "))
+            num_vehicles = int(input("How many vehicles in your household? "))
+            car_list = get_car_info(num_vehicles)
+            utilities_dict = get_utility_info()
+            recycling_choices = get_recycling_info(residence_size)
+        except:
+            print("Invalid input. Please try again")
+            continue
 
-    player = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
+        player = User(age, residence_size, num_vehicles, car_list, utilities_dict, recycling_choices)
 
-    return player
+        return player
 
 
 def graph(player_list, good_list, bad_list,green_fam_list,waste_fam_list):
     """graphs all objects using Plotly"""
     input_values = list(range(18, 91))
     average_american_list = average_american()
-
+    cows = ten_cows()
     fig, ax = plt.subplots()
     # Create a line on the graph for each plot
     ax.plot(input_values, player_list, linewidth=1, label="You")
     ax.plot(input_values, average_american_list, linewidth=1, label="Avg American")
+    ax.plot(input_values, cows, linewidth=1, label="10 cows")
     ax.plot(input_values, good_list, linewidth=1, label="100% green")
     ax.plot(input_values, bad_list, linewidth=1, label="Bad Actor")
     ax.plot(input_values, green_fam_list, linewidth=1, label= "Green, two more kids")

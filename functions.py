@@ -8,29 +8,35 @@ def get_car_info(num_vehicles):
     Creates a list of cars in the household where each car is a dictionary
     :return: nothing
     """
-    car_list = []
-    for i in range(num_vehicles):
-        # gather car info to be appended later
-        mpg = int(input(f"What is the mpg of car {i + 1}? "))
-        annual_miles = int(input(f"How many miles do you drive car {i + 1} each year? (Avg is 11,000) "))
-        maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
-        if maintenance_answer in positive_responses():
-            maintenance = True
-        else:
-            maintenance = False
+    while True:
+        try:
+            car_list = []
+            for i in range(num_vehicles):
+                # gather car info to be appended later
+                mpg = int(input(f"What is the mpg of car {i + 1}? "))
+                annual_miles = int(input(f"How many miles do you drive car {i + 1} each year? (Avg is 11,000) "))
+                maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
+                if maintenance_answer in positive_responses():
+                    maintenance = True
+                else:
+                    maintenance = False
 
-        # create a dictionary for each car
-        car_dict = {
-            "mpg": maintenance_factor(mpg, maintenance),
-            "annual_miles": annual_miles,
-            "maintenance": maintenance,  # this entry in the dictionary can probably be deleted
-            "lbs_CO2": (annual_miles / mpg) * 19.6,
-        }
+                # create a dictionary for each car
+                car_dict = {
+                    "mpg": maintenance_factor(mpg, maintenance),
+                    "annual_miles": annual_miles,
+                    "maintenance": maintenance,  # this entry in the dictionary can probably be deleted
+                    "lbs_CO2": (annual_miles / mpg) * 19.6,
+                }
 
-        # append each car_dict to the car list
-        car_list.append(car_dict)
+                # append each car_dict to the car list
+                car_list.append(car_dict)
 
-    return car_list
+        except:
+            "Invalid input. Please try again"
+            continue
+
+        return car_list
 
 
 def get_utility_info():
@@ -38,20 +44,26 @@ def get_utility_info():
     Creates a single dictionary storing the user's utility usage
     :return: nothing
     """
-    # gather utility info to store in dictionary
-    natural_gas = int(input("How much do you spend on natural gas each month? $"))
-    electricity = int(input("How much do you spend on electricity each month? $"))
-    oil = int(input("How much do you spend on oil fuel each month? $"))
-    propane = int(input("How much do you spend on propane each month? $"))
+    while True:
+       try:
+           # gather utility info to store in dictionary
+           natural_gas = int(input("How much do you spend on natural gas each month? $"))
+           electricity = int(input("How much do you spend on electricity each month? $"))
+           oil = int(input("How much do you spend on oil fuel each month? $"))
+           propane = int(input("How much do you spend on propane each month? $"))
 
-    utilities_dict = {
-        "natural gas": natural_gas,
-        "electricity": electricity,
-        "oil": oil,
-        "propane": propane,
-    }
+           utilities_dict = {
+               "natural gas": natural_gas,
+               "electricity": electricity,
+               "oil": oil,
+               "propane": propane,
+               }
+       except:
+           print("Invalid input. Try again")
+           continue
 
-    return utilities_dict
+       return utilities_dict
+
 
 
 def get_recycling_info(residence_size):
@@ -105,6 +117,17 @@ def average_american():
         average_list.append(average_list[i] + 16)
 
     return average_list
+
+def ten_cows():
+    """The CO2 equivalence of methane released by 10 cows. The average amount of cows to a ranch in the US is around
+    200. The average cow releases the methane equivalent of 2.5 tons of CO2/yr"""
+
+    average_list = [25]
+    for i in range(72):
+        average_list.append(average_list[i] + 25)
+
+    return average_list
+
 
 
 def get_modified_list(yearly_footprint, modified_footprint, age):
