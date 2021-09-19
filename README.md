@@ -32,5 +32,5 @@ Sample Usage:
 <li><strike>Add screenshots of matplotlib.pyplot graphs and general usage</strike></li>
 <li>Make presentation video</li>
 <li><strike>Convert C02 to tons for more clear data</strike></li>
-<li>Add exception handling</li>
+<li><strike>Add exception handling</strike></li>
 <li>Add constants that show how much the earth warms if all people expended this much C02, if the graph doesn't become to cluttered (slated for v2)</li>
