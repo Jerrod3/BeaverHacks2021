@@ -103,10 +103,11 @@ def graph(player_list, good_list):
     average_american_list = average_american()
 
     fig, ax = plt.subplots()
+    # Create a line on the graph for each plot
     ax.plot(input_values,player_list, linewidth = 3, label = "You")
     ax.plot(input_values,average_american_list, linewidth = 3, label = "Avg American")
     ax.plot(input_values,good_list, linewidth = 3, label = "100% green")
-
+    # Use the label lines package to put labels on the lines
     labelLines(plt.gca().get_lines())
 
     # Set chart title and label axes.
