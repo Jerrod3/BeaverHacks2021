@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+from functions import *
 
 # NOTES / THINGS TO IMPLEMENT
 """
@@ -6,11 +6,12 @@ I lost the try/except stuff along the way, so input validation isn't present her
 If you look at the good default user material, it will hopefully be pretty straightforward how to implement
 a bad default user.  It should only require creating one new function for each default user, and formatting it like
 the default good user.
-We need to figure out how to label the lines on the grpah. I'm sure Plotly has a tool for this.
+We need to figure out how to label the lines on the graph. I'm sure Plotly has a tool for this.
 Move some functions to function.py, though this is just for readability and aesthetics.
 Update README
 Update this docstring to show a description, date, and us at the authors.
 """
+
 
 class User:
     """A class that represents a user for the game"""
@@ -39,80 +40,15 @@ class User:
         return int(footprint)
 
 
-def get_car_info(num_vehicles):
-    """
-    Creates a list of cars in the household where each car is a dictionary
-    :return: nothing
-    """
-    car_list = []
-    for i in range(num_vehicles):
-        # gather car info to be appended later
-        mpg = int(input(f"What is the mpg of car {i + 1}? "))
-        annual_miles = int(input(f"How many miles do you drive car {i + 1} each year? (Avg is 11,000) "))
-        maintenance_answer = input("Do you perform regular maintenance on this vehicle? ")
-        if maintenance_answer in positive_responses():
-            maintenance = True
-        else:
-            maintenance = False
+def main():
+    """the main function for the program"""
+    player = create_user()
+    player_list = get_player_list(player.footprint)
 
-        # create a dictionary for each car
-        car_dict = {
-            "mpg": maintenance_factor(mpg, maintenance),
-            "annual_miles": annual_miles,
-            "maintenance": maintenance,  # this entry in the dictionary can probably be deleted
-            "lbs_CO2": (annual_miles / mpg) * 19.6,
-        }
+    goody_two_shoes = good_user()
+    good_list = get_modified_list(player.footprint, goody_two_shoes.footprint, player.age)
 
-        # append each car_dict to the car list
-        car_list.append(car_dict)
-
-    return car_list
-
-
-def get_utility_info():
-    """
-    Creates a single dictionary storing the user's utility usage
-    :return: nothing
-    """
-    # gather utility info to store in dictionary
-    natural_gas = int(input("How much do you spend on natural gas each month? $"))
-    electricity = int(input("How much do you spend on electricity each month? $"))
-    oil = int(input("How much do you spend on oil fuel each month? $"))
-    propane = int(input("How much do you spend on propane each month? $"))
-
-    utilities_dict = {
-        "natural gas": natural_gas,
-        "electricity": electricity,
-        "oil": oil,
-        "propane": propane,
-    }
-
-    return utilities_dict
-
-
-def get_recycling_info(residence_size):
-    """Calculates recycling reductions"""
-    # the list of potentially recycled items
-    recyclable_items = ['metal cans', 'plastic', 'glass', 'paper', 'magazines']
-    # go through list and ask if the user recycles said item, and append to value list accordingly
-    recycling_choices = []
-    for item in recyclable_items:
-        response = input(f"Do you recycle {item}? ")
-        if response not in positive_responses():
-            continue
-        else:
-            if item == 'metal cans':
-                recycling_choices.append(89 * residence_size)
-            elif item == 'plastic':
-                recycling_choices.append(36 * residence_size)
-            elif item == 'glass':
-                recycling_choices.append(25 * residence_size)
-            elif item == 'paper':
-                recycling_choices.append(113 * residence_size)
-            elif item == 'magazines':
-                recycling_choices.append(27 * residence_size)
-
-    return recycling_choices
+    graph(player_list, good_list)
 
 
 def get_player_list(yearly_footprint):
@@ -121,31 +57,6 @@ def get_player_list(yearly_footprint):
     for i in range(1, 73):
         cumulative_list.append(int(cumulative_list[i-1] + yearly_footprint))
     return cumulative_list
-
-
-def get_modified_list(yearly_footprint, modified_footprint, age):
-    """creates a list of the modified cumulative footprint"""
-    # modification_factor = yearly_footprint = modified_footprint
-    modified_list = [yearly_footprint]
-
-    for i in range(1, 73):
-        if i <= age - 18:
-            modified_list.append(modified_list[i-1] + yearly_footprint)
-        else:
-            modified_list.append(modified_list[i-1] + modified_footprint)
-
-    return modified_list
-
-
-def average_american():
-    """
-    :return: a list of the cumulative carbon footprint of the average american, in lbs
-    """
-    average_list = [16*2000]
-    for i in range(72):
-        average_list.append(average_list[i] + 16*2000)
-
-    return average_list
 
 
 def good_user():
@@ -202,35 +113,5 @@ def graph(player_list, good_list):
 
     plt.show()
 
-
-def main():
-    """the main function for the program"""
-    player = create_user()
-    player_list = get_player_list(player.footprint)
-
-    goody_two_shoes = good_user()
-    good_list = get_modified_list(player.footprint, goody_two_shoes.footprint, player.age)
-
-    print(player_list)
-    print(good_list)
-
-    graph(player_list, good_list)
-
-
-def positive_responses():
-    """a list of positive response"""
-    return ['yes', 'y', 'Yes', 'Y']
-
-
-def maintenance_factor(mpg, maintenance_bool):
-    """
-    :param mpg: fuel efficiency as an int
-    :param maintenance_bool: whether regular maintenance is performed
-    :return: modified mpg as float
-    """
-    if maintenance_bool:
-        return mpg * 1.04
-    else:
-        return mpg * 0.96
 
 main()
