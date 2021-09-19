@@ -18,5 +18,4 @@ The final graph will look something like this:</p>
 <li>Make presentation video</li>
 <li>Convert C02 to tons for more clear graphs</li>
 <li>Add exception handling</li>
-<li>Add labels for lines</li>
 <li>Add constants that show how much the earth warms if all people expended this much C02, if the graph doesn't become to cluttered</li>
