@@ -3,21 +3,20 @@
 <p>The user is asked a series of questions to determine their yearly CO2 emissions in lbs.</p>
 <p>Our goal is to show a graph with the user's cumulative lifetime footprint over time, along with different trajectories based upon life choices they could make.
 The final graph will look something like this:</p>
-<img src="imgs/GraphVision.png">
 
-(images aren't working on replit but are visible on github)
+![image info](./imgs/GraphVision.png)
 
 As of Saturday at 6:30pm, we have succeeded at graphing our user lifetime projected footprint and two possible alternative trajectories based on lifestyle changes, along with the average American's lifetime footprint.
 
-<img src="imgs/Figure_1.png">
+![image info](./imgs/Figure_1.png)
 
 Sample Usage:
 
-<img src="imgs/cmd.png">
+![image info](./imgs/cmd.png)
 
 <p><u><strong>Requirements</strong></u></p>
 <li>Python3</li>
-<li>Plotly</li>
+<li>matplotlib.pyplot</li>
 <li><a href="https://pypi.org/project/matplotlib-label-lines/">Labellines</a></li>
 
 <p><u><strong>Usage</strong></u></p>
@@ -30,7 +29,7 @@ Sample Usage:
 
 <p><u><strong>To be added</strong></u></p>
 <li><strike>Add sources to this README</strike></li>
-<li><strike>Add screenshots of plotly graphs and general usage</strike></li>
+<li><strike>Add screenshots of matplotlib.pyplot graphs and general usage</strike></li>
 <li>Make presentation video</li>
 <li>Convert C02 to tons for more clear data</li>
 <li>Add exception handling</li>
